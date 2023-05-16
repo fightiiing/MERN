@@ -1,12 +1,16 @@
 import React from 'react'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import store from './store.js'
+import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client'
+import PrivateRoute from './components/PrivateRoute.jsx'
 import App from './App.jsx'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import HomeScreen from './screens/HomeScreen.jsx'
 import LoginScreen from './screens/LoginScreen.jsx'
 import RegisterScreen from './screens/RegisterScreen.jsx'
+import ProfileScreen from './screens/ProfileScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,12 +18,18 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={<HomeScreen/>}></Route>
       <Route path='/login' element={<LoginScreen/>}></Route>
       <Route path='/register' element={<RegisterScreen/>}></Route>
+        <Route path='' element={<PrivateRoute />}>
+          <Route path='/profile' element={<ProfileScreen/>}></Route>
+        </Route>
     </Route>
+    
   )
 )
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+<Provider store={store}>
+<React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </React.StrictMode>
+  </Provider>
 )
